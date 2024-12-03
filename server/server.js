@@ -13,9 +13,28 @@ let calculations = []
 // Here's a wonderful place to make some routes:
 
 // GET /calculations
-
+app.get('/calculations', (req, res) => {
+  res.send(calculations[calculations.length - 1]);
+});
 // POST /calculations
-
+app.post('/calculations', (req, res) => {
+  const { numOne, numTwo, operator } = req.body;
+  let result;
+  if (operator === '+') {
+    result = numOne + numTwo;
+  } else if (operator === '-') {
+    result = numOne - numTwo;
+  } else if (operator === '*') {
+    result = numOne * numTwo;
+  } else if (operator === '/') {
+    result = numOne / numTwo;
+  } else {
+    res.status(400).send('Invalid operator');
+    return;
+  }
+  calculations.push({ numOne, numTwo, operator });
+  res.status(200).send({ result });
+});
 
 // PLEASE DO NOT MODIFY ANY CODE BELOW THESE BEARS:
 // 🐻  🐻‍❄️  🧸  🐻  🐻‍❄️  🧸  🐻  🐻‍❄️  🧸  🐻  🐻‍❄️  🧸
